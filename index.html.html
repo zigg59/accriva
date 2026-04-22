@@ -1,0 +1,1345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Accriva Accounting — Precision accounting for personal &amp; business wealth</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&amp;family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --forest-900:#0B1813;
+    --forest-800:#0F1E17;
+    --forest-700:#16281F;
+    --forest-600:#1E342A;
+    --forest-500:#2A4A3B;
+    --ivory:#F5F1E8;
+    --ivory-2:#EDE7D7;
+    --ivory-3:#E3DCC8;
+    --paper:#FAF7EE;
+    --gold:#C9A96E;
+    --gold-deep:#A8864A;
+    --gold-soft:#D9BF8C;
+    --ink:#0B1813;
+    --mute:#6B7A72;
+    --rule:rgba(201,169,110,.35);
+    --rule-ivory:rgba(11,24,19,.12);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--ivory);
+    color:var(--ink);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:500;
+    letter-spacing:-.01em;
+    margin:0;
+    line-height:1.05;
+  }
+  p{margin:0}
+  a{color:inherit;text-decoration:none}
+  .mono{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase}
+
+  /* ------- NAV ------- */
+  .nav{
+    position:fixed; top:0; left:0; right:0; z-index:60;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 48px;
+    transition:background .35s ease, padding .35s ease, color .35s ease, border-color .35s ease;
+    border-bottom:1px solid transparent;
+    color:var(--ivory);
+  }
+  .nav.scrolled{
+    background:rgba(11,24,19,.92);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    padding:14px 48px;
+    border-bottom:1px solid rgba(201,169,110,.18);
+  }
+  .logo{display:flex; align-items:center; gap:12px; cursor:pointer}
+  .logo-mark{
+    width:38px; height:38px; border:1px solid var(--gold);
+    display:grid; place-items:center;
+    font-family:'Cormorant Garamond',serif; font-style:italic; font-size:22px; color:var(--gold);
+    position:relative;
+  }
+  .logo-mark::before,.logo-mark::after{
+    content:""; position:absolute; background:var(--gold);
+  }
+  .logo-mark::before{top:-3px; left:50%; width:1px; height:6px; transform:translateX(-50%)}
+  .logo-mark::after{bottom:-3px; left:50%; width:1px; height:6px; transform:translateX(-50%)}
+  .logo-text{display:flex; flex-direction:column; line-height:1}
+  .logo-text .t1{font-family:'Cormorant Garamond',serif; font-size:18px; letter-spacing:.02em}
+  .logo-text .t2{font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:.24em; margin-top:4px; opacity:.7}
+
+  .nav-links{display:flex; gap:34px; align-items:center; font-size:13px; letter-spacing:.02em}
+  .nav-links a{position:relative; padding:4px 0; opacity:.85; transition:opacity .2s}
+  .nav-links a:hover{opacity:1}
+  .nav-links a::after{
+    content:""; position:absolute; left:0; right:100%; bottom:-2px; height:1px;
+    background:var(--gold); transition:right .3s ease;
+  }
+  .nav-links a:hover::after{right:0}
+
+  .nav-cta{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:11px 20px; border:1px solid var(--gold); color:var(--gold);
+    font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+    cursor:pointer; background:transparent; transition:all .3s;
+    font-family:inherit;
+  }
+  .nav-cta:hover{background:var(--gold); color:var(--forest-900)}
+  .nav-cta .arrow{width:14px; height:1px; background:currentColor; position:relative; transition:width .3s}
+  .nav-cta .arrow::after{content:""; position:absolute; right:0; top:-3px; width:7px; height:7px; border-right:1px solid currentColor; border-top:1px solid currentColor; transform:rotate(45deg)}
+  .nav-cta:hover .arrow{width:20px}
+
+  .menu-btn{display:none; background:none; border:0; color:inherit; cursor:pointer; padding:8px}
+
+  /* ------- HERO ------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    background:var(--forest-800);
+    color:var(--ivory);
+    overflow:hidden;
+    display:flex; align-items:flex-end;
+    padding:120px 48px 80px;
+  }
+  .hero-bg{
+    position:absolute; inset:0;
+    background:
+      radial-gradient(ellipse 80% 60% at 70% 30%, rgba(201,169,110,.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 20% 80%, rgba(42,74,59,.6) 0%, transparent 55%),
+      linear-gradient(180deg, var(--forest-900) 0%, var(--forest-800) 60%, var(--forest-700) 100%);
+  }
+  .hero-grain{
+    position:absolute; inset:0; opacity:.35; mix-blend-mode:overlay; pointer-events:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.79 0 0 0 0 0.66 0 0 0 0 0.43 0 0 0 .4 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+  .hero-rule{
+    position:absolute; left:48px; right:48px; top:90px; height:1px; background:var(--rule);
+  }
+  .hero-mark{
+    position:absolute; top:120px; right:48px;
+    width:260px; height:260px; border:1px solid var(--rule);
+    border-radius:50%;
+    display:grid; place-items:center;
+    opacity:.7;
+  }
+  .hero-mark::before{
+    content:""; position:absolute; inset:18px; border:1px solid rgba(201,169,110,.18); border-radius:50%;
+  }
+  .hero-mark-inner{
+    font-family:'Cormorant Garamond',serif; font-style:italic;
+    color:var(--gold); font-size:84px; line-height:1;
+  }
+  .hero-mark-sub{
+    position:absolute; bottom:32px; font-family:'JetBrains Mono',monospace;
+    font-size:9px; letter-spacing:.3em; color:var(--gold-soft); opacity:.7;
+  }
+
+  .hero-grid{
+    position:relative; z-index:2;
+    display:grid; grid-template-columns: 1fr auto; gap:80px;
+    align-items:end; width:100%;
+  }
+  .hero-eyebrow{
+    display:flex; align-items:center; gap:14px; margin-bottom:48px;
+    color:var(--gold-soft);
+  }
+  .hero-eyebrow .line{width:48px; height:1px; background:var(--gold)}
+
+  .hero-headline{
+    font-size:clamp(56px, 9vw, 132px);
+    line-height:.96;
+    font-weight:400;
+    letter-spacing:-.02em;
+    max-width:1200px;
+  }
+  .hero-headline em{
+    font-style:italic; font-weight:400;
+    color:var(--gold);
+    position:relative;
+  }
+  .hero-headline sup{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px; vertical-align:super;
+    color:var(--gold-soft); font-weight:400;
+    letter-spacing:.1em; margin-left:4px;
+  }
+
+  .hero-meta{
+    display:flex; gap:64px; margin-top:56px; padding-top:32px;
+    border-top:1px solid var(--rule);
+    max-width:880px;
+  }
+  .hero-meta-block{flex:1}
+  .hero-meta-label{
+    font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.24em;
+    text-transform:uppercase; color:var(--gold-soft); margin-bottom:10px; opacity:.8;
+  }
+  .hero-meta-val{
+    font-family:'Cormorant Garamond',serif; font-size:19px; font-style:italic;
+    color:var(--ivory); line-height:1.3;
+  }
+
+  .hero-side{
+    display:flex; flex-direction:column; align-items:flex-end; gap:32px;
+    min-width:280px;
+  }
+  .hero-cta{
+    display:inline-flex; align-items:center; gap:14px;
+    padding:20px 28px;
+    background:var(--gold); color:var(--forest-900);
+    font-size:13px; letter-spacing:.16em; text-transform:uppercase; font-weight:500;
+    border:1px solid var(--gold); cursor:pointer; font-family:inherit;
+    transition:all .4s cubic-bezier(.2,.7,.3,1);
+  }
+  .hero-cta:hover{background:transparent; color:var(--gold)}
+  .hero-cta-dot{width:6px; height:6px; border-radius:50%; background:currentColor}
+
+  .hero-vert{
+    position:absolute; right:-30px; top:50%;
+    transform:rotate(90deg) translateY(-100%);
+    transform-origin:left top;
+    font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.32em;
+    color:var(--gold-soft); opacity:.7;
+  }
+
+  /* ------- SECTION PRIMITIVES ------- */
+  section{position:relative}
+  .sec-pad{padding:140px 48px}
+  .sec-head{
+    display:flex; gap:48px; align-items:baseline; margin-bottom:80px;
+    padding-bottom:24px; border-bottom:1px solid var(--rule-ivory);
+  }
+  .sec-head.dark{border-bottom-color:var(--rule)}
+  .sec-num{
+    font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.24em;
+    color:var(--gold-deep); min-width:80px; padding-top:12px;
+  }
+  .sec-head.dark .sec-num{color:var(--gold)}
+  .sec-title-wrap{flex:1}
+  .sec-eyebrow{
+    font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.24em;
+    text-transform:uppercase; color:var(--mute); margin-bottom:16px;
+  }
+  .sec-head.dark .sec-eyebrow{color:var(--gold-soft)}
+  .sec-title{
+    font-size:clamp(40px, 5.5vw, 72px);
+    line-height:1.02; letter-spacing:-.02em;
+    max-width:900px;
+  }
+  .sec-title em{font-style:italic; color:var(--gold-deep)}
+  .sec-head.dark .sec-title em{color:var(--gold)}
+  .sec-lede{
+    font-family:'Cormorant Garamond',serif; font-size:20px; line-height:1.45;
+    font-style:italic; color:var(--mute);
+    max-width:380px; padding-top:16px;
+  }
+  .sec-head.dark .sec-lede{color:var(--gold-soft)}
+
+  /* reveal animation */
+  .reveal{opacity:0; transform:translateY(24px); transition:opacity .9s cubic-bezier(.2,.7,.3,1), transform .9s cubic-bezier(.2,.7,.3,1)}
+  .reveal.in{opacity:1; transform:none}
+  .reveal.d1{transition-delay:.08s}
+  .reveal.d2{transition-delay:.16s}
+  .reveal.d3{transition-delay:.24s}
+  .reveal.d4{transition-delay:.32s}
+
+  /* ------- SERVICES ------- */
+  .services{background:var(--ivory)}
+  .svc-grid{
+    display:grid; grid-template-columns:repeat(4, 1fr);
+    border-top:1px solid var(--rule-ivory);
+    border-left:1px solid var(--rule-ivory);
+  }
+  .svc{
+    padding:44px 32px 40px;
+    border-right:1px solid var(--rule-ivory);
+    border-bottom:1px solid var(--rule-ivory);
+    min-height:340px;
+    position:relative;
+    display:flex; flex-direction:column;
+    background:var(--ivory);
+    transition:background .4s;
+    cursor:pointer;
+  }
+  .svc::before{
+    content:""; position:absolute; left:0; top:0; right:0; height:1px;
+    background:var(--gold); transform:scaleX(0); transform-origin:left;
+    transition:transform .5s cubic-bezier(.2,.7,.3,1);
+  }
+  .svc:hover{background:var(--paper)}
+  .svc:hover::before{transform:scaleX(1)}
+  .svc:hover .svc-arrow{transform:translate(6px,-6px); color:var(--gold-deep)}
+  .svc:hover .svc-icon{color:var(--gold-deep)}
+
+  .svc-top{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:36px}
+  .svc-num{
+    font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.24em;
+    color:var(--mute);
+  }
+  .svc-arrow{
+    width:18px; height:18px; color:var(--mute);
+    transition:transform .4s cubic-bezier(.2,.7,.3,1), color .3s;
+  }
+  .svc-icon{
+    color:var(--forest-700); margin-bottom:24px; transition:color .3s;
+  }
+  .svc-title{
+    font-size:28px; line-height:1.1; margin-bottom:14px;
+    font-weight:500;
+  }
+  .svc-desc{font-size:14px; line-height:1.6; color:var(--mute); flex:1}
+  .svc-tags{
+    display:flex; flex-wrap:wrap; gap:6px; margin-top:20px;
+    padding-top:16px; border-top:1px dashed var(--rule-ivory);
+  }
+  .svc-tag{
+    font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:.12em;
+    color:var(--mute); text-transform:uppercase;
+  }
+  .svc-tag+.svc-tag::before{content:"·"; margin-right:6px; color:var(--gold-deep)}
+
+  /* ------- WHY (trust signals) ------- */
+  .why{
+    background:var(--forest-800); color:var(--ivory);
+    position:relative; overflow:hidden;
+  }
+  .why::before{
+    content:""; position:absolute; inset:0;
+    background:radial-gradient(ellipse 50% 60% at 80% 20%, rgba(201,169,110,.08), transparent 60%);
+    pointer-events:none;
+  }
+  .trust-grid{
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:0;
+    border-top:1px solid var(--rule);
+  }
+  .trust-cell{
+    padding:56px 32px 48px;
+    border-right:1px solid var(--rule);
+    position:relative;
+  }
+  .trust-cell:last-child{border-right:0}
+  .trust-num{
+    font-family:'Cormorant Garamond',serif;
+    font-size:96px; line-height:1; color:var(--gold);
+    margin-bottom:8px; font-weight:400;
+    display:flex; align-items:flex-start;
+  }
+  .trust-num .unit{
+    font-size:28px; margin-top:12px; margin-left:4px;
+    color:var(--gold-soft); font-style:italic;
+  }
+  .trust-label{
+    font-size:15px; color:var(--ivory); margin-top:14px;
+    font-weight:400; line-height:1.4; max-width:240px;
+  }
+  .trust-sub{
+    font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.22em;
+    color:var(--gold-soft); opacity:.7; margin-top:24px; text-transform:uppercase;
+  }
+
+  .why-credentials{
+    display:flex; gap:56px; align-items:center; justify-content:center;
+    padding:48px 32px; border-top:1px solid var(--rule);
+    flex-wrap:wrap;
+  }
+  .cred{
+    font-family:'Cormorant Garamond',serif; font-style:italic;
+    font-size:20px; color:var(--gold-soft);
+    display:flex; align-items:center; gap:18px;
+  }
+  .cred::before{content:""; width:6px; height:6px; background:var(--gold); transform:rotate(45deg)}
+  .cred:first-child::before{display:none}
+
+  /* ------- ABOUT NISHA ------- */
+  .about{background:var(--paper)}
+  .about-grid{
+    display:grid; grid-template-columns:5fr 6fr; gap:80px; align-items:stretch;
+  }
+  .portrait{
+    position:relative; aspect-ratio:4/5; background:var(--forest-700);
+    overflow:hidden;
+  }
+  .portrait-placeholder{
+    position:absolute; inset:0;
+    background:
+      repeating-linear-gradient(135deg, rgba(201,169,110,.07) 0 2px, transparent 2px 12px),
+      linear-gradient(180deg, var(--forest-600), var(--forest-800));
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    color:var(--gold-soft);
+  }
+  .portrait-initials{
+    font-family:'Cormorant Garamond',serif; font-style:italic;
+    font-size:180px; line-height:1; color:var(--gold);
+    opacity:.9;
+  }
+  .portrait-caption{
+    font-family:'JetBrains Mono',monospace; font-size:10px;
+    letter-spacing:.24em; color:var(--gold-soft); margin-top:20px;
+    text-transform:uppercase; opacity:.7;
+  }
+  .portrait-frame{
+    position:absolute; inset:16px; border:1px solid var(--rule); pointer-events:none;
+  }
+  .portrait-tag{
+    position:absolute; left:-1px; bottom:40px;
+    background:var(--gold); color:var(--forest-900);
+    font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.22em;
+    padding:10px 16px; text-transform:uppercase;
+  }
+
+  .about-body{display:flex; flex-direction:column; justify-content:center}
+  .about-body .sec-eyebrow{margin-bottom:24px}
+  .about-name{
+    font-size:clamp(48px,6vw,84px); line-height:1;
+    margin-bottom:8px;
+  }
+  .about-name em{font-style:italic; color:var(--gold-deep)}
+  .about-title{
+    font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.24em;
+    text-transform:uppercase; color:var(--mute); margin-bottom:40px;
+    padding-bottom:24px; border-bottom:1px solid var(--rule-ivory);
+  }
+  .about-lede{
+    font-family:'Cormorant Garamond',serif; font-size:26px; line-height:1.35;
+    font-style:italic; color:var(--ink); margin-bottom:28px;
+  }
+  .about-lede::first-letter{
+    font-size:72px; float:left; line-height:.85; margin:6px 12px 0 0;
+    color:var(--gold-deep); font-weight:500;
+  }
+  .about-p{font-size:15px; line-height:1.7; color:var(--mute); margin-bottom:20px; max-width:560px}
+  .about-sig{
+    margin-top:32px; display:flex; align-items:center; gap:20px;
+    padding-top:24px; border-top:1px solid var(--rule-ivory);
+  }
+  .about-sig-mark{
+    font-family:'Cormorant Garamond',serif; font-style:italic; font-size:42px;
+    color:var(--forest-700); line-height:1;
+  }
+  .about-sig-meta{
+    font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.2em;
+    color:var(--mute); text-transform:uppercase; line-height:1.8;
+  }
+
+  /* ------- PROCESS ------- */
+  .process{background:var(--ivory)}
+  .steps{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:0;
+    border-top:1px solid var(--rule-ivory);
+    position:relative;
+  }
+  .step{
+    padding:64px 40px 56px;
+    border-right:1px solid var(--rule-ivory);
+    position:relative;
+  }
+  .step:last-child{border-right:0}
+  .step-num{
+    font-family:'Cormorant Garamond',serif;
+    font-size:140px; line-height:.9; color:var(--gold-deep);
+    font-weight:400; font-style:italic;
+    margin-bottom:32px;
+    position:relative; display:inline-block;
+  }
+  .step-num::after{
+    content:""; position:absolute; left:0; bottom:10px;
+    width:40px; height:1px; background:var(--gold);
+  }
+  .step-dot{
+    position:absolute; top:-5px; right:-5px;
+    width:10px; height:10px; background:var(--gold); border-radius:50%;
+  }
+  .step-title{
+    font-size:32px; margin-bottom:14px; line-height:1.1;
+  }
+  .step-desc{
+    font-size:14px; color:var(--mute); line-height:1.65; max-width:320px;
+  }
+  .step-meta{
+    font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.22em;
+    color:var(--gold-deep); margin-top:28px; text-transform:uppercase;
+    padding-top:16px; border-top:1px dashed var(--rule-ivory);
+  }
+
+  /* ------- TESTIMONIALS ------- */
+  .testimonials{
+    background:var(--forest-900); color:var(--ivory);
+    position:relative; overflow:hidden;
+  }
+  .quote-mark{
+    position:absolute; top:80px; right:60px;
+    font-family:'Cormorant Garamond',serif; font-style:italic;
+    font-size:360px; line-height:.8; color:var(--gold); opacity:.09;
+    pointer-events:none;
+  }
+  .t-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:32px}
+  .t-card{
+    border:1px solid var(--rule);
+    padding:40px 36px 32px; background:rgba(201,169,110,.02);
+    display:flex; flex-direction:column; min-height:420px;
+    transition:background .4s, border-color .4s;
+    position:relative;
+  }
+  .t-card:hover{background:rgba(201,169,110,.05); border-color:rgba(201,169,110,.5)}
+  .t-card::before{
+    content:"“"; position:absolute; top:20px; left:28px;
+    font-family:'Cormorant Garamond',serif; font-size:60px; line-height:1;
+    color:var(--gold); opacity:.4; font-style:italic;
+  }
+  .t-stars{
+    display:flex; gap:3px; margin-bottom:20px; margin-top:28px;
+    color:var(--gold);
+  }
+  .t-body{
+    font-family:'Cormorant Garamond',serif; font-size:22px; line-height:1.4;
+    font-style:italic; color:var(--ivory); margin-bottom:32px;
+    flex:1;
+  }
+  .t-foot{
+    display:flex; align-items:center; gap:14px;
+    padding-top:20px; border-top:1px solid var(--rule);
+  }
+  .t-avatar{
+    width:42px; height:42px; border-radius:50%;
+    border:1px solid var(--gold);
+    display:grid; place-items:center;
+    font-family:'Cormorant Garamond',serif; font-style:italic;
+    color:var(--gold); font-size:18px;
+  }
+  .t-who{line-height:1.3}
+  .t-name{font-size:14px; color:var(--ivory); font-weight:500}
+  .t-role{font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.18em; color:var(--gold-soft); text-transform:uppercase; margin-top:4px}
+
+  /* ------- FAQ ------- */
+  .faq{background:var(--paper)}
+  .faq-list{border-top:1px solid var(--rule-ivory); max-width:1100px; margin:0 auto}
+  .faq-item{
+    border-bottom:1px solid var(--rule-ivory);
+    padding:32px 8px; cursor:pointer;
+    display:grid; grid-template-columns:60px 1fr auto; gap:32px; align-items:flex-start;
+    transition:padding .3s;
+  }
+  .faq-item:hover{padding-left:24px}
+  .faq-num{
+    font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.22em;
+    color:var(--gold-deep); padding-top:8px;
+  }
+  .faq-q{
+    font-family:'Cormorant Garamond',serif; font-size:26px; line-height:1.25;
+    font-weight:500; color:var(--ink);
+  }
+  .faq-toggle{
+    width:32px; height:32px; border:1px solid var(--rule-ivory); border-radius:50%;
+    display:grid; place-items:center; position:relative; margin-top:4px;
+    transition:background .3s, border-color .3s, transform .4s;
+  }
+  .faq-toggle::before,.faq-toggle::after{
+    content:""; position:absolute; background:var(--ink);
+    transition:transform .35s cubic-bezier(.2,.7,.3,1), background .3s;
+  }
+  .faq-toggle::before{width:10px; height:1px}
+  .faq-toggle::after{width:1px; height:10px}
+  .faq-item.open .faq-toggle{background:var(--gold); border-color:var(--gold); transform:rotate(180deg)}
+  .faq-item.open .faq-toggle::before,.faq-item.open .faq-toggle::after{background:var(--forest-900)}
+  .faq-item.open .faq-toggle::after{transform:scaleY(0)}
+  .faq-a-wrap{
+    grid-column:2 / 3;
+    max-height:0; overflow:hidden;
+    transition:max-height .5s cubic-bezier(.2,.7,.3,1), margin-top .3s;
+  }
+  .faq-item.open .faq-a-wrap{max-height:400px; margin-top:20px}
+  .faq-a{
+    font-size:15px; line-height:1.7; color:var(--mute); max-width:720px;
+    padding-bottom:12px;
+  }
+
+  /* ------- CONTACT ------- */
+  .contact{
+    background:var(--forest-800); color:var(--ivory);
+    position:relative; overflow:hidden;
+  }
+  .contact-grid{
+    display:grid; grid-template-columns:5fr 6fr; gap:80px;
+  }
+  .contact-left .sec-title{margin-bottom:32px}
+  .contact-left .sec-title em{color:var(--gold)}
+  .contact-info{
+    margin-top:48px; border-top:1px solid var(--rule); padding-top:32px;
+    display:flex; flex-direction:column; gap:28px;
+  }
+  .ci-row{display:flex; gap:20px; align-items:flex-start}
+  .ci-label{
+    font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.22em;
+    color:var(--gold-soft); text-transform:uppercase;
+    min-width:80px; padding-top:6px;
+  }
+  .ci-val{
+    font-family:'Cormorant Garamond',serif; font-size:22px; color:var(--ivory);
+    line-height:1.35;
+  }
+  .ci-val small{
+    display:block; font-family:'Inter',sans-serif; font-size:12px;
+    color:var(--gold-soft); opacity:.7; margin-top:4px; letter-spacing:.04em;
+  }
+
+  form{
+    background:rgba(245,241,232,.03);
+    border:1px solid var(--rule);
+    padding:48px 44px;
+  }
+  .form-row{margin-bottom:28px}
+  .form-row.split{display:grid; grid-template-columns:1fr 1fr; gap:20px}
+  .field-label{
+    font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.22em;
+    color:var(--gold-soft); text-transform:uppercase; margin-bottom:10px;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .field-label .req{color:var(--gold); font-size:14px}
+  input,textarea,select{
+    width:100%; background:transparent; border:0;
+    border-bottom:1px solid var(--rule);
+    padding:10px 0 12px; font-size:16px; color:var(--ivory);
+    font-family:'Cormorant Garamond',serif; font-style:italic;
+    transition:border-color .3s;
+    outline:none;
+  }
+  input:focus,textarea:focus,select:focus{border-bottom-color:var(--gold)}
+  input::placeholder,textarea::placeholder{color:rgba(245,241,232,.35); font-style:italic}
+  select{
+    appearance:none; -webkit-appearance:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' stroke='%23C9A96E' fill='none' stroke-width='1'/></svg>");
+    background-repeat:no-repeat; background-position:right 0 center;
+    padding-right:24px; color:var(--ivory);
+    cursor:pointer;
+  }
+  select option{background:var(--forest-800); color:var(--ivory); font-family:'Inter',sans-serif; font-style:normal}
+  textarea{resize:vertical; min-height:100px; font-size:15px}
+  .field-error{
+    font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.18em;
+    color:#E8A07A; margin-top:8px; text-transform:uppercase;
+    opacity:0; transition:opacity .2s; height:0;
+  }
+  .has-error input,.has-error textarea,.has-error select{border-bottom-color:#E8A07A}
+  .has-error .field-error{opacity:1; height:auto}
+
+  .submit{
+    display:inline-flex; align-items:center; gap:14px;
+    padding:18px 32px; background:var(--gold); color:var(--forest-900);
+    border:1px solid var(--gold); font-family:inherit;
+    font-size:12px; letter-spacing:.16em; text-transform:uppercase; font-weight:500;
+    cursor:pointer; transition:all .3s;
+    margin-top:16px;
+  }
+  .submit:hover{background:transparent; color:var(--gold)}
+  .submit[disabled]{opacity:.6; cursor:wait}
+  .form-note{
+    font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.18em;
+    color:var(--gold-soft); text-transform:uppercase; opacity:.7;
+    margin-top:16px;
+  }
+
+  .form-success{
+    padding:48px 44px;
+    border:1px solid var(--gold);
+    background:rgba(201,169,110,.05);
+    text-align:center;
+  }
+  .form-success h3{
+    font-size:36px; color:var(--gold); margin-bottom:14px;
+  }
+  .form-success p{color:var(--gold-soft); font-family:'Cormorant Garamond',serif; font-style:italic; font-size:18px}
+  .form-success .check{
+    width:56px; height:56px; border-radius:50%; border:1px solid var(--gold);
+    display:grid; place-items:center; margin:0 auto 24px;
+    color:var(--gold);
+  }
+
+  /* ------- FOOTER ------- */
+  footer{
+    background:var(--forest-900); color:var(--ivory);
+    padding:80px 48px 36px;
+    border-top:1px solid var(--rule);
+  }
+  .foot-top{
+    display:grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap:64px; padding-bottom:48px; border-bottom:1px solid var(--rule);
+  }
+  .foot-brand .logo-mark{width:52px; height:52px; font-size:30px}
+  .foot-brand .logo-text .t1{font-size:22px}
+  .foot-tag{
+    font-family:'Cormorant Garamond',serif; font-style:italic;
+    font-size:18px; color:var(--gold-soft); margin-top:24px; max-width:320px;
+    line-height:1.4;
+  }
+  .foot-col h5{
+    font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.24em;
+    color:var(--gold); text-transform:uppercase; margin:0 0 20px;
+  }
+  .foot-col ul{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px}
+  .foot-col a{font-size:14px; color:var(--ivory); opacity:.75; transition:opacity .2s, color .2s}
+  .foot-col a:hover{opacity:1; color:var(--gold)}
+  .foot-bottom{
+    padding-top:32px; display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:20px;
+  }
+  .foot-bottom .mono{color:var(--gold-soft); opacity:.6; font-size:10px}
+  .socials{display:flex; gap:14px}
+  .soc{
+    width:36px; height:36px; border:1px solid var(--rule); border-radius:50%;
+    display:grid; place-items:center; color:var(--ivory); opacity:.7;
+    transition:all .3s; cursor:pointer;
+  }
+  .soc:hover{background:var(--gold); color:var(--forest-900); border-color:var(--gold); opacity:1}
+
+  /* ------- RESPONSIVE ------- */
+  @media (max-width: 1100px){
+    .svc-grid{grid-template-columns:repeat(2,1fr)}
+    .trust-grid{grid-template-columns:repeat(2,1fr)}
+    .trust-cell{border-bottom:1px solid var(--rule)}
+    .trust-cell:nth-child(2){border-right:0}
+    .t-grid{grid-template-columns:1fr}
+    .steps{grid-template-columns:1fr}
+    .step{border-right:0; border-bottom:1px solid var(--rule-ivory)}
+    .about-grid,.contact-grid{grid-template-columns:1fr; gap:56px}
+    .foot-top{grid-template-columns:1fr 1fr; gap:40px}
+    .hero-mark{display:none}
+    .hero-grid{grid-template-columns:1fr}
+  }
+  @media (max-width:720px){
+    .nav{padding:16px 20px}
+    .nav-links{display:none}
+    .menu-btn{display:block}
+    .nav-cta{display:none}
+    .nav.scrolled{padding:12px 20px}
+    .sec-pad{padding:88px 20px}
+    .hero{padding:120px 20px 60px}
+    .hero-rule{left:20px; right:20px}
+    .hero-meta{flex-direction:column; gap:24px}
+    .svc-grid{grid-template-columns:1fr}
+    .svc{min-height:auto}
+    .foot-top{grid-template-columns:1fr}
+    .sec-head{flex-direction:column; gap:16px; margin-bottom:48px}
+    .faq-item{grid-template-columns:40px 1fr auto; gap:16px}
+    .form-row.split{grid-template-columns:1fr}
+    form{padding:32px 24px}
+    .why-credentials{flex-direction:column; gap:20px}
+    .cred::before{display:none}
+    .hero-vert{display:none}
+  }
+</style>
+<script type='text/javascript' nonce='IoDT73tkzG6B8Qmj2KyPkA==' src='https://claude.ai/usnpdlm_i23uSJqhyk8YIvbxs1qlJWREpsX5mh7P6d8HCqD2ptYewKUqVMe26sZC_Hdtbe0CAf1_hHAZpDVyFkgp1-sKD0qZtAkLQeCkvFVfbahACV3mz_IuK0pOxlBemRQo2lpjPAs_VkYA2SBJx9urDvb5vT-m7nehuQ1aIWAHG8oqRVKI36UKMjBfHSE4-eNgq-CSRYcUlhJeC5LoigtxXfHbDkKt139GW04Kgtykpa4wIAYEvt-Z3t6JSd1cgF4waJP_ZI2Vhaeq6DlccxFgaK1dQLBOzYRhI-pOpJBXuPsUUCQu2WXGhQFk6dq0fqlZ5LtuVdKTuxyjYhXl6E-AG3XE3VHHN8WgHkmKi1vD7Qq2oTxrXEURJZ7N3rNgam_XDdAj69X3GsnCwM6Jt45ePfsmXbNcDKxjqMZizkE1qjFX_wQpkm8lJoIIKY-6ChhfOMNk9ry-4tbiXExQ4eCZjlrlAoKeDUcPvhVrRxg-X0tZmgOYEDDOx4gf20Gpo3kguK6qQDXZKRoGqGRLDYaKSlPDO1Ygmq9MX2ML_xPiW2wpoWF72MoidV_NJ0Dlg_jaMQ4dLByG'></script></head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<nav class="nav" id="nav">
+  <a class="logo" href="#top">
+    <div class="logo-mark">P</div>
+    <div class="logo-text">
+      <span class="t1">Accriva Accounting</span>
+      <span class="t2">EST · MMXI · CPA</span>
+    </div>
+  </a>
+  <div class="nav-links">
+    <a href="#services">Services</a>
+    <a href="#why">Why Us</a>
+    <a href="#about">About</a>
+    <a href="#process">Process</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <button class="nav-cta" onclick="document.getElementById(&#39;contact&#39;).scrollIntoView({behavior:&#39;smooth&#39;})">
+    <span>Book Consultation</span>
+    <span class="arrow"></span>
+  </button>
+  <button class="menu-btn" aria-label="Menu">
+    <svg width="22" height="14" viewbox="0 0 22 14" fill="none"><path d="M0 1h22M0 7h22M0 13h14" stroke="currentColor"/></svg>
+  </button>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero" id="top">
+  <div class="hero-bg"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-rule"></div>
+
+  <div class="hero-mark">
+    <div class="hero-mark-inner">N.P</div>
+    <div class="hero-mark-sub">CEO · PATEL &amp; CO.</div>
+  </div>
+
+  <div class="hero-vert">VOL · XV / MMXXVI — LEDGER NO. 04</div>
+
+  <div class="hero-grid">
+    <div class="hero-main">
+      <div class="hero-eyebrow">
+        <span class="line"></span>
+        <span class="mono">Accriva Accounting — since 2011</span>
+      </div>
+
+      <h1 class="hero-headline reveal">
+        Numbers<br/>
+        that tell the <em>truth</em><sup>01</sup><br/>
+        of your <em>wealth</em>.
+      </h1>
+
+      <div class="hero-meta reveal d1">
+        <div class="hero-meta-block">
+          <div class="hero-meta-label">Founding CEO</div>
+          <div class="hero-meta-val">Nisha Patel, CPA<br/>IRS Enrolled Agent</div>
+        </div>
+        <div class="hero-meta-block">
+          <div class="hero-meta-label">Practice</div>
+          <div class="hero-meta-val">Personal &amp; business<br/>accounting, tax &amp; advisory</div>
+        </div>
+        <div class="hero-meta-block">
+          <div class="hero-meta-label">Clients served</div>
+          <div class="hero-meta-val">520+ households<br/>&amp; privately-held firms</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-side reveal d2">
+      <button class="hero-cta" onclick="document.getElementById(&#39;contact&#39;).scrollIntoView({behavior:&#39;smooth&#39;})">
+        <span class="hero-cta-dot"></span>
+        <span>Book a free consultation</span>
+      </button>
+      <div class="mono" style="color:var(--gold-soft); opacity:.7; text-align:right">
+        30-minute call · no obligation<br/>
+        available weekdays · 9 – 6 EST
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== SERVICES ===================== -->
+<section class="services sec-pad" id="services">
+  <div class="sec-head">
+    <div class="sec-num">§ 01 / SERVICES</div>
+    <div class="sec-title-wrap">
+      <div class="sec-eyebrow">Eight practices, one standard</div>
+      <h2 class="sec-title reveal">A complete <em>ledger</em><br/>of what we do.</h2>
+    </div>
+    <p class="sec-lede reveal d1">From a first tax return to the closing of an estate — every engagement handled with the same editorial care.</p>
+  </div>
+
+  <div class="svc-grid" id="svcGrid"></div>
+</section>
+
+<!-- ===================== WHY ===================== -->
+<section class="why sec-pad" id="why">
+  <div class="sec-head dark">
+    <div class="sec-num">§ 02 / RECORD</div>
+    <div class="sec-title-wrap">
+      <div class="sec-eyebrow">Trust, in figures</div>
+      <h2 class="sec-title reveal">Fifteen years. <em>Five hundred</em><br/>households. One firm.</h2>
+    </div>
+    <p class="sec-lede reveal d1">Credentials you can verify, relationships measured in decades — not quarters.</p>
+  </div>
+
+  <div class="trust-grid">
+    <div class="trust-cell reveal">
+      <div class="trust-num">15<span class="unit">yrs</span></div>
+      <div class="trust-label">In continuous practice across federal &amp; state jurisdictions.</div>
+      <div class="trust-sub">Est. 2011 · Piscataway, NJ</div>
+    </div>
+    <div class="trust-cell reveal d1">
+      <div class="trust-num">520<span class="unit">+</span></div>
+      <div class="trust-label">Clients served — from freelancers to eight-figure operating companies.</div>
+      <div class="trust-sub">Retention · 94 %</div>
+    </div>
+    <div class="trust-cell reveal d2">
+      <div class="trust-num">07<span class="unit">CPAs</span></div>
+      <div class="trust-label">Certified public accountants &amp; two IRS Enrolled Agents on staff.</div>
+      <div class="trust-sub">AICPA · NJSCPA members</div>
+    </div>
+    <div class="trust-cell reveal d3">
+      <div class="trust-num">$4.2<span class="unit">m</span></div>
+      <div class="trust-label">In legitimate tax savings returned to clients over the last three years.</div>
+      <div class="trust-sub">Verified · FY 22 – 25</div>
+    </div>
+  </div>
+
+  <div class="why-credentials">
+    <div class="cred">Licensed CPA Firm</div>
+    <div class="cred">IRS Enrolled Agents</div>
+    <div class="cred">QuickBooks ProAdvisor</div>
+    <div class="cred">AICPA Member</div>
+    <div class="cred">NJSCPA Member</div>
+  </div>
+</section>
+
+<!-- ===================== ABOUT ===================== -->
+<section class="about sec-pad" id="about">
+  <div class="sec-head">
+    <div class="sec-num">§ 03 / PRINCIPAL</div>
+    <div class="sec-title-wrap">
+      <div class="sec-eyebrow">The woman behind the ledger</div>
+      <h2 class="sec-title reveal">A CPA who<br/>answers her own <em>phone</em>.</h2>
+    </div>
+  </div>
+
+  <div class="about-grid">
+    <div class="portrait reveal">
+      <div class="portrait-placeholder">
+        <div class="portrait-initials">np</div>
+        <div class="portrait-caption">Portrait · Nisha Patel</div>
+      </div>
+      <div class="portrait-frame"></div>
+      <div class="portrait-tag">Nisha Patel · CEO</div>
+    </div>
+
+    <div class="about-body reveal d1">
+      <div class="sec-eyebrow">Founder &amp; CEO</div>
+      <h3 class="about-name">Nisha <em>Patel</em></h3>
+      <div class="about-title">Certified Public Accountant · IRS Enrolled Agent · MBA, Wharton</div>
+
+      <p class="about-lede">Good accounting, done well, is a quiet art — and after fifteen years I still find it endlessly interesting.</p>
+
+      <p class="about-p">Nisha began her career at a Big Four firm auditing multinationals. She left in 2011 to build something smaller and more personal: a practice where every client has her direct line, and every return is reviewed by a partner before it is filed.</p>
+
+      <p class="about-p">Today Accriva Accounting serves more than five hundred households and privately-held businesses — from first-year freelancers filing a Schedule C to operating companies planning generational transfers. The firm's work has been recognized by the NJSCPA and featured in regional financial media.</p>
+
+      <div class="about-sig">
+        <div class="about-sig-mark" style="font-size:48px">N. Patel</div>
+        <div class="about-sig-meta">
+          Nisha Patel, CPA<br/>
+          Founder &amp; CEO · Accriva Accounting
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROCESS ===================== -->
+<section class="process sec-pad" id="process">
+  <div class="sec-head">
+    <div class="sec-num">§ 04 / METHOD</div>
+    <div class="sec-title-wrap">
+      <div class="sec-eyebrow">How we work</div>
+      <h2 class="sec-title reveal">Three steps — <em>honestly</em>,<br/>that is all it takes.</h2>
+    </div>
+    <p class="sec-lede reveal d1">No onboarding theatre. No 40-page intake forms. A conversation, a plan, and careful execution.</p>
+  </div>
+
+  <div class="steps">
+    <div class="step reveal">
+      <div class="step-num">I<span class="step-dot"></span></div>
+      <h3 class="step-title">Consult</h3>
+      <p class="step-desc">A 30-minute call — no fee, no obligation. We listen to what you are trying to do with your money and where the friction is.</p>
+      <div class="step-meta">Day 1 · ~30 min</div>
+    </div>
+    <div class="step reveal d1">
+      <div class="step-num">II<span class="step-dot"></span></div>
+      <h3 class="step-title">Plan</h3>
+      <p class="step-desc">A written engagement scope with fixed fees, deliverables and a calendar. No surprises, no hourly creep. You approve before we begin.</p>
+      <div class="step-meta">Week 1 · written plan</div>
+    </div>
+    <div class="step reveal d2">
+      <div class="step-num">III<span class="step-dot"></span></div>
+      <h3 class="step-title">Execute</h3>
+      <p class="step-desc">The quiet part. Books reconciled monthly, returns filed on time, questions answered within one business day — for as long as you are a client.</p>
+      <div class="step-meta">Ongoing · monthly cadence</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TESTIMONIALS ===================== -->
+<section class="testimonials sec-pad">
+  <div class="quote-mark">”</div>
+  <div class="sec-head dark">
+    <div class="sec-num">§ 05 / TESTIMONY</div>
+    <div class="sec-title-wrap">
+      <div class="sec-eyebrow">In their own words</div>
+      <h2 class="sec-title reveal">What clients <em>say</em><br/>after the ink dries.</h2>
+    </div>
+  </div>
+
+  <div class="t-grid">
+    <div class="t-card reveal">
+      <div class="t-stars">★ ★ ★ ★ ★</div>
+      <p class="t-body">Nisha caught a depreciation schedule error my previous accountant had carried for four years. The amended returns recovered nearly eleven thousand dollars. That paid for a decade of her fees in an afternoon.</p>
+      <div class="t-foot">
+        <div class="t-avatar">M</div>
+        <div class="t-who">
+          <div class="t-name">Marcus Holloway</div>
+          <div class="t-role">Founder · Holloway Design Co.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-card reveal d1">
+      <div class="t-stars">★ ★ ★ ★ ★</div>
+      <p class="t-body">I came in with a shoebox of receipts and a small side business I was embarrassed about. I left with a real set of books and — for the first time — the feeling that someone was actually on my side with the IRS.</p>
+      <div class="t-foot">
+        <div class="t-avatar">S</div>
+        <div class="t-who">
+          <div class="t-name">Sofia Reyes</div>
+          <div class="t-role">Illustrator · Brooklyn, NY</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-card reveal d2">
+      <div class="t-stars">★ ★ ★ ★ ★</div>
+      <p class="t-body">We were acquiring a competitor and needed audit-quality financials in six weeks. Patel's team didn't just deliver them — they reframed our reporting in a way the buyers' diligence team praised on the call.</p>
+      <div class="t-foot">
+        <div class="t-avatar">K</div>
+        <div class="t-who">
+          <div class="t-name">Kenji Watanabe</div>
+          <div class="t-role">COO · Cardinal Logistics</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FAQ ===================== -->
+<section class="faq sec-pad" id="faq">
+  <div class="sec-head">
+    <div class="sec-num">§ 06 / QUESTIONS</div>
+    <div class="sec-title-wrap">
+      <div class="sec-eyebrow">Before you book</div>
+      <h2 class="sec-title reveal">Questions<br/>worth <em>asking</em>.</h2>
+    </div>
+  </div>
+
+  <div class="faq-list" id="faqList"></div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section class="contact sec-pad" id="contact">
+  <div class="sec-head dark">
+    <div class="sec-num">§ 07 / BEGIN</div>
+    <div class="sec-title-wrap">
+      <div class="sec-eyebrow">Book a free consultation</div>
+      <h2 class="sec-title reveal">Thirty minutes.<br/>No <em>obligation</em>.</h2>
+    </div>
+  </div>
+
+  <div class="contact-grid">
+    <div class="contact-left reveal">
+      <p class="sec-lede" style="max-width:440px; padding-top:0">
+        Tell us a little about what you are working on. Nisha or a senior CPA will reply within one business day with a suggested time and a short list of things to bring.
+      </p>
+
+      <div class="contact-info">
+        <div class="ci-row">
+          <div class="ci-label">Phone</div>
+          <div class="ci-val">732-485-3888<small>Nisha's direct line — Mon–Fri, 9–6 EST</small></div>
+        </div>
+        <div class="ci-row">
+          <div class="ci-label">Email</div>
+          <div class="ci-val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="fc929d8f9e9393979799998c95929b9d9298889d848f998e8a959f998fc8bc9b919d9590d29f9391">[email&#160;protected]</a><small>Replies within one business day</small></div>
+        </div>
+        <div class="ci-row">
+          <div class="ci-label">Office</div>
+          <div class="ci-val">Piscataway<small>New Jersey · 08854</small></div>
+        </div>
+        <div class="ci-row">
+          <div class="ci-label">Hours</div>
+          <div class="ci-val">Mon — Fri · 9 – 6<small>Weekends available during tax season</small></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal d1">
+      <form id="contactForm" novalidate="">
+        <div class="form-row split">
+          <div>
+            <div class="field-label"><span>Full name</span><span class="req">*</span></div>
+            <input type="text" name="name" placeholder="Jane Doe"/>
+            <div class="field-error">Please enter your name.</div>
+          </div>
+          <div>
+            <div class="field-label"><span>Email</span><span class="req">*</span></div>
+            <input type="email" name="email" placeholder="jane@example.com"/>
+            <div class="field-error">Enter a valid email address.</div>
+          </div>
+        </div>
+
+        <div class="form-row split">
+          <div>
+            <div class="field-label"><span>Phone</span><span>optional</span></div>
+            <input type="tel" name="phone" placeholder="(___) ___ ____"/>
+            <div class="field-error"></div>
+          </div>
+          <div>
+            <div class="field-label"><span>Service</span><span class="req">*</span></div>
+            <select name="service">
+              <option value="">— please select —</option>
+              <option>Personal Accounting &amp; Tax</option>
+              <option>Business Accounting</option>
+              <option>LLC Formation &amp; Setup</option>
+              <option>Bookkeeping</option>
+              <option>Tax Planning &amp; Strategy</option>
+              <option>Audit Support &amp; Representation</option>
+              <option>Financial Consulting</option>
+              <option>Nonprofit &amp; Estate Accounting</option>
+              <option>Not sure yet — let's discuss</option>
+            </select>
+            <div class="field-error">Please choose a service.</div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="field-label"><span>How can we help?</span><span>brief is fine</span></div>
+          <textarea name="message" placeholder="A sentence or two about what you&#39;re trying to figure out."></textarea>
+          <div class="field-error"></div>
+        </div>
+
+        <button class="submit" type="submit">
+          <span class="hero-cta-dot" style="background:currentColor"></span>
+          <span>Request consultation</span>
+        </button>
+        <div class="form-note">Confidential · Encrypted · CPA–client privilege applies</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="foot-top">
+    <div class="foot-brand">
+      <div class="logo">
+        <div class="logo-mark">P</div>
+        <div class="logo-text">
+          <span class="t1">Accriva Accounting</span>
+          <span class="t2">EST · MMXI · CPA</span>
+        </div>
+      </div>
+      <p class="foot-tag">Precision accounting &amp; tax counsel for individuals and privately-held businesses — since 2011.</p>
+    </div>
+    <div class="foot-col">
+      <h5>Practice</h5>
+      <ul>
+        <li><a href="#services">Personal Accounting</a></li>
+        <li><a href="#services">Business Accounting</a></li>
+        <li><a href="#services">Tax Planning</a></li>
+        <li><a href="#services">LLC Formation</a></li>
+        <li><a href="#services">Audit Support</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>Firm</h5>
+      <ul>
+        <li><a href="#about">About Nisha</a></li>
+        <li><a href="#why">Credentials</a></li>
+        <li><a href="#process">Our Process</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="#">732-485-3888</a></li>
+        <li><a href="#"><span class="__cf_email__" data-cfemail="b1dfd0c2d3dededadad4d4c1d8dfd6d0dfd5c5d0c9c2d4c3c7d8d2d4c285f1d6dcd0d8dd9fd2dedc">[email&#160;protected]</span></a></li>
+        <li><a href="#">Piscataway, NJ 08854</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="foot-bottom">
+    <div class="mono">© MMXXVI Accriva Accounting, LLC · All rights reserved</div>
+    <div class="socials">
+      <a class="soc" aria-label="LinkedIn" href="#"><svg width="14" height="14" viewbox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 11-.02 5.01 2.5 2.5 0 01.02-5.01zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-1 1.82-2.06 3.75-2.06C21.3 8.64 22 11 22 14v7h-4v-6.2c0-1.48-.03-3.39-2.07-3.39-2.07 0-2.39 1.62-2.39 3.28V21h-4V9z"/></svg></a>
+      <a class="soc" aria-label="Instagram" href="#"><svg width="14" height="14" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".9" fill="currentColor"/></svg></a>
+      <a class="soc" aria-label="X" href="#"><svg width="12" height="12" viewbox="0 0 24 24" fill="currentColor"><path d="M18 3h3l-7.5 8.6L22 21h-6.8l-5.3-6.9L3.6 21H.6l8-9.2L0 3h7l4.8 6.3L18 3z"/></svg></a>
+      <a class="soc" aria-label="Facebook" href="#"><svg width="14" height="14" viewbox="0 0 24 24" fill="currentColor"><path d="M13 22v-8h3l.5-4H13V7.5c0-1.16.32-1.95 2-1.95h2V2.14C16.67 2.1 15.4 2 14 2c-3 0-5 1.83-5 5.2V10H6v4h3v8h4z"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ------- DATA ------- */
+const SERVICES = [
+  {
+    n:"01", title:"Personal Accounting", tags:["1040","Schedule C","Investments"],
+    desc:"Individual tax preparation, income tracking, financial planning and every deduction you are entitled to — nothing more, nothing less.",
+    icon:`<svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="5" y="3" width="22" height="26" rx="1"/><path d="M9 9h14M9 14h14M9 19h10M9 24h8"/></svg>`
+  },
+  {
+    n:"02", title:"Business Accounting", tags:["P&L","Reporting","Cash flow"],
+    desc:"P&amp;L statements, monthly financial reporting, payroll administration and cash flow management — the full ledger, quietly handled.",
+    icon:`<svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 26h26M6 22V14M12 22V9M18 22V17M24 22V11"/><circle cx="6" cy="14" r="1.2" fill="currentColor"/><circle cx="12" cy="9" r="1.2" fill="currentColor"/><circle cx="18" cy="17" r="1.2" fill="currentColor"/><circle cx="24" cy="11" r="1.2" fill="currentColor"/></svg>`
+  },
+  {
+    n:"03", title:"LLC Formation & Setup", tags:["State filing","EIN","Op. agreements"],
+    desc:"State filing, EIN registration, operating agreements and the first year's books — so your new entity starts properly, not expensively.",
+    icon:`<svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M16 3l11 5v8c0 7-5 12-11 13-6-1-11-6-11-13V8l11-5z"/><path d="M11 16l4 4 7-8"/></svg>`
+  },
+  {
+    n:"04", title:"Bookkeeping", tags:["Monthly","Reconciliation","Categorization"],
+    desc:"Monthly reconciliation, expense categorization and a clean general ledger. Close-ready books, every month, without you thinking about it.",
+    icon:`<svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M7 3h15l5 5v21H7z"/><path d="M22 3v5h5"/><path d="M11 15h13M11 20h13M11 25h8"/></svg>`
+  },
+  {
+    n:"05", title:"Tax Planning & Strategy", tags:["Quarterly","Strategy","Entity choice"],
+    desc:"Quarterly estimated taxes, entity structure, retirement contribution and deduction strategy — planned in advance, not reconstructed in April.",
+    icon:`<svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="16" cy="16" r="13"/><path d="M16 3v13l9 5"/><path d="M16 8v3M16 21v3M8 16h3M21 16h3"/></svg>`
+  },
+  {
+    n:"06", title:"Audit Support & Representation", tags:["IRS","Correspondence","Prep"],
+    desc:"IRS correspondence, examination preparation and full representation under power of attorney. You do not face the Service alone.",
+    icon:`<svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5 27h22M8 27V13l8-6 8 6v14"/><path d="M13 27v-8h6v8"/><path d="M16 7V3"/></svg>`
+  },
+  {
+    n:"07", title:"Financial Consulting", tags:["Budgeting","Forecasts","Diligence"],
+    desc:"Budgeting, forecasting, investor-readiness and light diligence support — the CFO perspective, at a fraction of a CFO.",
+    icon:`<svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 24l8-9 5 5 11-12"/><path d="M21 8h7v7"/></svg>`
+  },
+  {
+    n:"08", title:"Nonprofit & Estate", tags:["990","Trusts","Legacy"],
+    desc:"Form 990 preparation for nonprofits, and estate &amp; trust accounting for families planning a thoughtful legacy. Handled with discretion.",
+    icon:`<svg width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 28V12l10-7 10 7v16"/><path d="M13 28v-9h6v9"/><path d="M6 14h20"/><circle cx="16" cy="9" r="1.2" fill="currentColor"/></svg>`
+  },
+];
+
+const FAQS = [
+  {
+    q:"Do you work with clients outside of New Jersey?",
+    a:"Yes. We are licensed to prepare federal and multi-state returns for clients across the United States, and we work entirely remotely when that suits you — secure document portal, encrypted video calls, e-signatures. Many of our clients we have never met in person, and the work is exactly the same."
+  },
+  {
+    q:"How are your fees structured?",
+    a:"We quote a fixed fee in writing before any work begins, based on the scope of the engagement rather than time spent. For ongoing relationships we offer monthly retainers that include unlimited questions by email — no meter running, no surprise invoices."
+  },
+  {
+    q:"I haven't filed taxes in several years. Can you still help?",
+    a:"Absolutely, and it is more common than you'd think. We routinely help clients get current on three to seven years of unfiled returns, often with far smaller consequences than feared. The sooner you begin, the better the options — we will quietly walk you through what is actually involved."
+  },
+  {
+    q:"What is the difference between a CPA and an Enrolled Agent?",
+    a:"A CPA is a state-licensed accountant with broad authority over financial reporting, audit and tax. An Enrolled Agent is a federally-licensed tax specialist with unlimited rights to represent you before the IRS. Nisha holds both credentials — which is somewhat rare, and useful when representation is needed."
+  },
+  {
+    q:"How quickly can you take on a new client?",
+    a:"Outside of peak season (Feb – Apr, Sep – Oct) we can usually begin within a week of the initial consultation. During peak season we are selective about new engagements to protect the standard of work — book early if you have an April deadline."
+  }
+];
+
+/* ------- RENDER SERVICES ------- */
+const svcEl = document.getElementById('svcGrid');
+svcEl.innerHTML = SERVICES.map((s,i)=>`
+  <div class="svc reveal d${Math.min(3, i%4)}">
+    <div class="svc-top">
+      <span class="svc-num">/ ${s.n}</span>
+      <svg class="svc-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M7 17L17 7M17 7H9M17 7V15"/></svg>
+    </div>
+    <div class="svc-icon">${s.icon}</div>
+    <h3 class="svc-title">${s.title}</h3>
+    <p class="svc-desc">${s.desc}</p>
+    <div class="svc-tags">${s.tags.map(t=>`<span class="svc-tag">${t}</span>`).join('')}</div>
+  </div>
+`).join('');
+
+/* ------- RENDER FAQ ------- */
+const faqEl = document.getElementById('faqList');
+faqEl.innerHTML = FAQS.map((f,i)=>`
+  <div class="faq-item reveal" data-idx="${i}">
+    <div class="faq-num">Q · ${String(i+1).padStart(2,'0')}</div>
+    <div class="faq-q">${f.q}</div>
+    <div class="faq-toggle"></div>
+    <div class="faq-a-wrap"><p class="faq-a">${f.a}</p></div>
+  </div>
+`).join('');
+faqEl.addEventListener('click', e=>{
+  const item = e.target.closest('.faq-item');
+  if(!item) return;
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(el=>el.classList.remove('open'));
+  if(!wasOpen) item.classList.add('open');
+});
+
+/* ------- NAV SCROLL ------- */
+const navEl = document.getElementById('nav');
+window.addEventListener('scroll',()=>{
+  navEl.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+/* ------- REVEAL ON SCROLL ------- */
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }
+  });
+},{threshold:.12, rootMargin:'0px 0px -60px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ------- FORM VALIDATION ------- */
+const form = document.getElementById('contactForm');
+form.addEventListener('submit', e=>{
+  e.preventDefault();
+  const fields = {
+    name: form.name.value.trim(),
+    email: form.email.value.trim(),
+    service: form.service.value.trim(),
+  };
+  let ok = true;
+  // clear
+  form.querySelectorAll('.form-row > div, .form-row').forEach(r=>r.classList.remove('has-error'));
+
+  const markErr = (selector)=>{
+    const input = form.querySelector(`[name="${selector}"]`);
+    const wrapper = input.closest('.form-row > div') || input.closest('.form-row');
+    wrapper.classList.add('has-error');
+    ok = false;
+  };
+
+  if(!fields.name) markErr('name');
+  if(!fields.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) markErr('email');
+  if(!fields.service) markErr('service');
+
+  if(!ok) return;
+
+  const btn = form.querySelector('.submit');
+  btn.disabled = true;
+  btn.querySelector('span:last-child').textContent = 'Sending…';
+
+  setTimeout(()=>{
+    form.innerHTML = `
+      <div class="form-success">
+        <div class="check">
+          <svg width="20" height="14" viewBox="0 0 20 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 7l5 5L18 2"/></svg>
+        </div>
+        <h3>Thank you, ${fields.name.split(' ')[0]}.</h3>
+        <p>Your consultation request has been received.<br/>Nisha will be in touch within one business day.</p>
+        <div class="form-note" style="margin-top:24px">Ref · ACC-${Date.now().toString(36).toUpperCase().slice(-6)}</div>
+      </div>`;
+  }, 900);
+});
+
+/* ------- MOBILE MENU (simple) ------- */
+document.querySelector('.menu-btn').addEventListener('click', ()=>{
+  const links = document.querySelector('.nav-links');
+  const isOpen = links.style.display === 'flex';
+  links.style.display = isOpen ? 'none' : 'flex';
+  links.style.flexDirection = 'column';
+  links.style.position = 'absolute';
+  links.style.top = '60px';
+  links.style.left = '0';
+  links.style.right = '0';
+  links.style.background = 'rgba(11,24,19,.98)';
+  links.style.padding = '24px';
+  links.style.gap = '18px';
+});
+</script>
+</body>
+</html>
