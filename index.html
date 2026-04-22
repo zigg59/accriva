@@ -1314,12 +1314,19 @@ if(!ok) return;
   btn.disabled = true;
   btn.querySelector('span:last-child').textContent = 'Sending…';
 
-  fetch(form.action, {
+ fetch(form.action, {
     method: 'POST',
     body: new FormData(form),
     headers: { 'Accept': 'application/json' }
   }).then(() => {
-    window.location.href = 'https://www.accrivaai.com';
+    form.innerHTML = `
+      <div class="form-success">
+        <div class="check">
+          <svg width="20" height="14" viewBox="0 0 20 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 7l5 5L18 2"/></svg>
+        </div>
+        <h3>Thank you.</h3>
+        <p>Your consultation request has been received.<br/>Nisha will be in touch within one business day.</p>
+      </div>`;
   });
 });
 
