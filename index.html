@@ -1307,23 +1307,13 @@ form.addEventListener('submit', e=>{
   if(!fields.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) markErr('email');
   if(!fields.service) markErr('service');
 
-  if(!ok) return;
+if(!ok) return;
 
   const btn = form.querySelector('.submit');
   btn.disabled = true;
   btn.querySelector('span:last-child').textContent = 'Sending…';
 
-  setTimeout(()=>{
-    form.innerHTML = `
-      <div class="form-success">
-        <div class="check">
-          <svg width="20" height="14" viewBox="0 0 20 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 7l5 5L18 2"/></svg>
-        </div>
-        <h3>Thank you, ${fields.name.split(' ')[0]}.</h3>
-        <p>Your consultation request has been received.<br/>Nisha will be in touch within one business day.</p>
-        <div class="form-note" style="margin-top:24px">Ref · ACC-${Date.now().toString(36).toUpperCase().slice(-6)}</div>
-      </div>`;
-  }, 900);
+  form.submit();
 });
 
 /* ------- MOBILE MENU (simple) ------- */
