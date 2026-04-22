@@ -1314,7 +1314,13 @@ if(!ok) return;
   btn.disabled = true;
   btn.querySelector('span:last-child').textContent = 'Sending…';
 
-  form.submit();
+  fetch(form.action, {
+    method: 'POST',
+    body: new FormData(form),
+    headers: { 'Accept': 'application/json' }
+  }).then(() => {
+    window.location.href = 'https://www.accrivaai.com';
+  });
 });
 
 /* ------- MOBILE MENU (simple) ------- */
